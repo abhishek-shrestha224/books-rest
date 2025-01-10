@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,10 +53,28 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<APIResponse<List<Book>>> getALl() {
-        final var books = bookService.getAll();
+        final List<Book> books = bookService.getAll();
         final var res = APIResponse.<List<Book>>builder()
                 .message("Success :)")
                 .data(books)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
+
+    @GetMapping("/{isbn}")
+    public ResponseEntity<APIResponse<Book>> getById(@PathVariable("isbn") final String isbn) {
+        final Book foundBook = bookService.getById(isbn);
+        if (foundBook == null) {
+            final var res = APIResponse.<Book>builder()
+                    .message("Not Found :(")
+                    .data(null)
+                    .build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+
+        }
+        final var res = APIResponse.<Book>builder()
+                .message("Book Found :)")
+                .data(foundBook)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(res);
 
