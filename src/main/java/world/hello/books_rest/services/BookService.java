@@ -4,6 +4,6 @@ import world.hello.books_rest.domain.Book;
 
 public interface BookService {
 
-    Book createBook(Book book);
+    boolean createBook(Book book);
 
 }
