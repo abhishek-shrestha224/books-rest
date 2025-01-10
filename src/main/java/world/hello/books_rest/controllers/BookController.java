@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import world.hello.books_rest.domain.APIResponse;
@@ -24,7 +23,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<APIResponse<Book>> create(@RequestBody Book bookData) {
         if (!bookService.validate(bookData)) {
             final var res = APIResponse.<Book>builder()
@@ -52,10 +51,10 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<APIResponse<List<Book>>> getALl(@RequestParam String param) {
+    public ResponseEntity<APIResponse<List<Book>>> getALl() {
         final var books = bookService.getAll();
         final var res = APIResponse.<List<Book>>builder()
-                .message("Books Found :)")
+                .message("Success :)")
                 .data(books)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(res);
