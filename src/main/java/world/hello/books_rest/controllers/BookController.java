@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,6 +76,34 @@ public class BookController {
         final var res = APIResponse.<Book>builder()
                 .message("Book Found :)")
                 .data(foundBook)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+
+    }
+
+    @PutMapping("/{isbn}")
+    public ResponseEntity<APIResponse<Book>> update(@PathVariable("isbn") final String isbn, @RequestBody Book book) {
+        if (!bookService.validate(book)) {
+            final var res = APIResponse.<Book>builder()
+                    .message("Bad Request! Fields Missing :(")
+                    .data(null)
+                    .build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        }
+        final Book updatedBook = bookService.updateById(isbn, book);
+
+        if (updatedBook == null) {
+            final var res = APIResponse.<Book>builder()
+                    .message("Not Found :(")
+                    .data(null)
+                    .build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+
+        }
+
+        final var res = APIResponse.<Book>builder()
+                .message("Book Updated :)")
+                .data(updatedBook)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(res);
 
