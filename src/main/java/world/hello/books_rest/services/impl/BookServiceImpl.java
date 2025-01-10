@@ -1,5 +1,7 @@
 package world.hello.books_rest.services.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import world.hello.books_rest.domain.Book;
@@ -16,16 +18,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean createBook(Book book) {
+    public boolean create(Book book) {
         return BookRepository.save(
                 BookMapper.bookToBookEntity(book));
     }
 
     @Override
-    public boolean validateBook(Book book) {
+    public boolean validate(Book book) {
         return !(book.getAuthor() == null || book.getAuthor().isEmpty()
                 || book.getTitle() == null || book.getTitle().isEmpty()
                 || book.getIsbn() == null || book.getIsbn().isEmpty());
+    }
+
+    @Override
+    public List<Book> getAll() {
+        return null;
     }
 
 }

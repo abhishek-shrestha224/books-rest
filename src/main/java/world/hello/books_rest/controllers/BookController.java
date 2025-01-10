@@ -22,7 +22,7 @@ public class BookController {
 
     @PostMapping()
     public ResponseEntity<APIResponse<Book>> postMethodName(@RequestBody Book bookData) {
-        if (!bookService.validateBook(bookData)) {
+        if (!bookService.validate(bookData)) {
             final var res = APIResponse.<Book>builder()
                     .message("Bad Request! Fields Missing :(")
                     .data(null)
@@ -30,7 +30,7 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
         }
 
-        final boolean created = bookService.createBook(bookData);
+        final boolean created = bookService.create(bookData);
         if (!created) {
             final var res = APIResponse.<Book>builder()
                     .message("Something Went Wrong :(")

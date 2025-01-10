@@ -19,4 +19,12 @@ public class BookRepository {
     public List<BookEntity> findAll() {
         return new ArrayList<>(books);
     }
+
+    public BookEntity findById(String isbn) {
+        return books.stream()
+                .filter(book -> book.getIsbn().equals(isbn))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
