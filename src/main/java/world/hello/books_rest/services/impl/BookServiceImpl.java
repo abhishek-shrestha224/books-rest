@@ -22,4 +22,11 @@ public class BookServiceImpl implements BookService {
                 BookMapper.bookToBookEntity(book));
     }
 
+    @Override
+    public boolean validateBook(Book book) {
+        return !(book.getAuthor() == null || book.getAuthor().isEmpty()
+                || book.getTitle() == null || book.getTitle().isEmpty()
+                || book.getIsbn() == null || book.getIsbn().isEmpty());
+    }
+
 }

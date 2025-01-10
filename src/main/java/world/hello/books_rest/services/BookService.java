@@ -6,4 +6,5 @@ public interface BookService {
 
     boolean createBook(Book book);
 
+    boolean validateBook(Book book);
 }

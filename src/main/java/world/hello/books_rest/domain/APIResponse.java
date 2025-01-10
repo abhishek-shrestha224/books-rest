@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class APIResponse<T> {
     private String message;
-    private String data;
+    private T data;
 
 }
