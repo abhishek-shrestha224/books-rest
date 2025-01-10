@@ -38,4 +38,8 @@ public class BookRepository {
         return null;
     }
 
+    public boolean deleteById(String isbn) {
+        return books.removeIf(book -> book.getIsbn().equals(isbn));
+    }
+
 }
