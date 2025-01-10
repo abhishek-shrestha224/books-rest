@@ -11,4 +11,6 @@ public interface BookService {
     boolean validate(Book book);
 
     List<Book> getAll();
+
+    Book getById(String isbn);
 }

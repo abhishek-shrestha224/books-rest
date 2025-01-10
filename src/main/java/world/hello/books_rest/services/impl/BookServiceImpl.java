@@ -20,16 +20,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean create(Book book) {
-        return bookRepository.save(
-                BookMapper.bookToBookEntity(book));
-    }
-
-    @Override
     public boolean validate(Book book) {
         return !(book.getAuthor() == null || book.getAuthor().isEmpty()
                 || book.getTitle() == null || book.getTitle().isEmpty()
                 || book.getIsbn() == null || book.getIsbn().isEmpty());
+    }
+
+    @Override
+    public boolean create(Book book) {
+        return bookRepository.save(
+                BookMapper.bookToBookEntity(book));
     }
 
     @Override
@@ -40,4 +40,14 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Book getById(String isbn) {
+        final BookEntity book = bookRepository.findById(isbn);
+
+        if (book == null) {
+            return null;
+        }
+
+        return BookMapper.bookEntityToBook(book);
+    };
 }
