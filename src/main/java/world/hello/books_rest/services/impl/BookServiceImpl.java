@@ -52,4 +52,9 @@ public class BookServiceImpl implements BookService {
         final BookEntity bookEntity = bookRepository.updateById(isbn, BookMapper.bookToBookEntity(book));
         return (bookEntity == null) ? null : BookMapper.bookEntityToBook(bookEntity);
     }
+
+    @Override
+    public boolean deleteById(String isbn) {
+        return bookRepository.deleteById(isbn);
+    }
 }

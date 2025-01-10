@@ -15,4 +15,6 @@ public interface BookService {
     Book getById(String isbn);
 
     Book updateById(String isbn, Book book);
+
+    boolean deleteById(String isbn);
 }
