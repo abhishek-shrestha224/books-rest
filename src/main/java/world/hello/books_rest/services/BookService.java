@@ -13,4 +13,6 @@ public interface BookService {
     List<Book> getAll();
 
     Book getById(String isbn);
+
+    Book updateById(String isbn, Book book);
 }

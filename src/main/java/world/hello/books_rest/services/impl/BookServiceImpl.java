@@ -42,12 +42,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getById(String isbn) {
-        final BookEntity book = bookRepository.findById(isbn);
+        final BookEntity foundBook = bookRepository.findById(isbn);
 
-        if (book == null) {
-            return null;
-        }
-
-        return BookMapper.bookEntityToBook(book);
+        return (foundBook == null) ? null : BookMapper.bookEntityToBook(foundBook);
     };
+
+    @Override
+    public Book updateById(String isbn, Book book) {
+        final BookEntity bookEntity = bookRepository.updateById(isbn, BookMapper.bookToBookEntity(book));
+        return (bookEntity == null) ? null : BookMapper.bookEntityToBook(bookEntity);
+    }
 }
