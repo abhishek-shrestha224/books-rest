@@ -1,10 +1,14 @@
 package world.hello.books_rest.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import world.hello.books_rest.domain.APIResponse;
@@ -21,7 +25,7 @@ public class BookController {
     }
 
     @PostMapping()
-    public ResponseEntity<APIResponse<Book>> postMethodName(@RequestBody Book bookData) {
+    public ResponseEntity<APIResponse<Book>> create(@RequestBody Book bookData) {
         if (!bookService.validate(bookData)) {
             final var res = APIResponse.<Book>builder()
                     .message("Bad Request! Fields Missing :(")
@@ -45,6 +49,17 @@ public class BookController {
                 .data(bookData)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
+    }
+
+    @GetMapping
+    public ResponseEntity<APIResponse<List<Book>>> getALl(@RequestParam String param) {
+        final var books = bookService.getAll();
+        final var res = APIResponse.<List<Book>>builder()
+                .message("Books Found :)")
+                .data(books)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+
     }
 
 }
