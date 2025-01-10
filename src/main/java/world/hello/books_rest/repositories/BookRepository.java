@@ -27,4 +27,15 @@ public class BookRepository {
                 .orElse(null);
     }
 
+    public BookEntity updateById(String id, BookEntity bookData) {
+        for (int i = 0; i < books.size(); i++) {
+            BookEntity book = books.get(i);
+            if (book.getIsbn().equals(id)) {
+                books.set(i, bookData);
+                return bookData;
+            }
+        }
+        return null;
+    }
+
 }
