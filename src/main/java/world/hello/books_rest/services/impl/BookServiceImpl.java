@@ -1,25 +1,27 @@
 package world.hello.books_rest.services.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import world.hello.books_rest.domain.Book;
+import world.hello.books_rest.domain.BookEntity;
 import world.hello.books_rest.repositories.BookRepository;
 import world.hello.books_rest.services.BookService;
 import world.hello.books_rest.services.mappers.BookMapper;
 
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookRepository BookRepository;
+    private final BookRepository bookRepository;
 
-    public BookServiceImpl(final BookRepository BookRepository) {
-        this.BookRepository = BookRepository;
+    public BookServiceImpl(final BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     @Override
     public boolean create(Book book) {
-        return BookRepository.save(
+        return bookRepository.save(
                 BookMapper.bookToBookEntity(book));
     }
 
@@ -32,7 +34,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAll() {
-        return null;
+        List<BookEntity> bookEntities = bookRepository.findAll();
+        return bookEntities.stream()
+                .map(BookMapper::bookEntityToBook)
+                .collect(Collectors.toList());
     }
 
 }
